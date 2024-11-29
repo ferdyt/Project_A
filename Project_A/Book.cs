@@ -11,6 +11,7 @@ namespace Project_A
         public string Title { get; set; }
         public Library Library { get; set; }
         public Rating Rating { get; set; }
+        public Status Status { get; set; }
         public string Author { get; set; }
 
         public Book(string title, string author, Rating rating, Library library)
@@ -21,6 +22,7 @@ namespace Project_A
             Library = library ?? throw new ArgumentNullException(nameof(library));
 
             library.AddBook(this);
+            Status = Status.NotTaken;
         }
     }
 }
