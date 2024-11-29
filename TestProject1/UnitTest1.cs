@@ -1,12 +1,12 @@
 using Project_A;
 
-namespace Project_A_MSTest
+namespace TestProject1
 {
     [TestClass]
-    public class UnitTest1 : PageTest
+    public class UnitTest1
     {
         [TestMethod]
-        void ReaderAddBook()
+        public void ReaderAddBook()
         {
             // Arrange
             Reader reader = new Reader();
@@ -21,7 +21,7 @@ namespace Project_A_MSTest
         }
 
         [TestMethod]
-        void LibraryAddBook()
+        public void LibraryAddBook()
         {
             // Arrange
             Library library = new Library();
@@ -35,7 +35,7 @@ namespace Project_A_MSTest
         }
 
         [TestMethod]
-        void LibraryAddReaders()
+        public void LibraryAddReaders()
         {
             // Arrange
             Library library = new Library();
@@ -49,7 +49,7 @@ namespace Project_A_MSTest
         }
 
         [TestMethod]
-        void LibraryAddLibrarians()
+        public void LibraryAddLibrarians()
         {
             // Arrange
             Library library = new Library();
