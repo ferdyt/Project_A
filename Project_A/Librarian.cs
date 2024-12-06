@@ -11,15 +11,36 @@ namespace Project_A
         public string Name { get; set; }
         public Age Age { get; set; }
         public int PhoneNumber { get; set; }
+        public Library Library { get; set; }
 
         public void FindBook(string title)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Назва не коректна", nameof(title));
+            }
+
+            if (Library == null)
+            {
+                throw new InvalidOperationException("Бiблiотекар не працює у бiблiотецi");
+            }
+
+            foreach (var book in Library.Books)
+            {
+                if (string.Equals(book.Title, title, StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"Книга {book.Title} знайдена");
+                    return;
+                }
+            }
+
+            Console.WriteLine($"Книга {title} не знайдена");
+            return;
         }
 
         public void GetInfo()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Iм\'я: {Name}, вiк: {Age}, телефон: {PhoneNumber}");
         }
     }
 }

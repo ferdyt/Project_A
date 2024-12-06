@@ -1,41 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Project_A
 {
-    public class Library : IEntityWithBooks
+    public class Library
     {
-        public List<Book> Books { get; set; } = new List<Book>();
-        public List<Librarian> Librarians { get; set; } = new List<Librarian>();
+        public List<Book> Books { get; } = new List<Book>();
+        public List<Reader> Readers { get; } = new List<Reader>();
+        public List<Librarian> Librarians { get; } = new List<Librarian>();
 
         public void AddBook(Book book)
         {
             if (book == null)
-            {
                 throw new ArgumentNullException(nameof(book));
+            if (!Books.Contains(book) && book.Library == this) 
+            {
+                Books.Add(book);
             }
-            book.Status = Status.NotTaken;
-            Books.Add(book);
-            Console.WriteLine($"Книжка додана: {book.Title}");
         }
 
         public void AddLibrarian(Librarian librarian)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Book> GetBooks()
-        {
-            return Books;
+            if (librarian == null)
+            {
+                throw new ArgumentNullException(nameof(librarian));
+            }
+            Librarians.Add(librarian);
+            Console.WriteLine($"Бiблiотекар доданий: {librarian.Name}");
         }
 
         public void AddReader(Reader reader)
         {
-            throw new NotImplementedException();
+            if (reader == null)
+            {
+                throw new ArgumentNullException(nameof(reader));
+            }
+            Readers.Add(reader);
+            Console.WriteLine($"Читач доданий: {reader.Name}");
         }
     }
 }

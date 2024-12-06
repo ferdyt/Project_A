@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 
 namespace Project_A
 {
-    public class Reader : Person, IEmployee, IEntityWithBooks
+    public class Reader : Person, IEmployee
     {
-        public List<Book> Books { get; set; } = new List<Book>();
+        public List<Book> Books { get; } = new List<Book>();
         public string Name { get; set; }
         public Age Age { get; set; }
         public int PhoneNumber { get; set; }
 
         public void AddBook(Book book)
         {
-            if (book == null || book.Status == Status.NotTaken)
+            if (book == null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+            if (book.Status == Status.Taken)
             {
                 throw new ArgumentNullException(nameof(book));
             }
@@ -23,14 +27,9 @@ namespace Project_A
             Console.WriteLine($"Книжка додана: {book.Title}");
         }
 
-        public List<Book> GetBooks()
-        {
-            return Books;
-        }
-
         public void GetInfo()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Iм\'я: {Name}, вiк: {Age}, телефон: {PhoneNumber}");
         }
     }
 }
