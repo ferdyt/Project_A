@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Reflection.Metadata.BlobBuilder;
-
-namespace Project_A
+﻿namespace Project_A
 {
-    public class Library
+    public class Library : IBookHandler
     {
         public List<Book> Books { get; } = new List<Book>();
         public List<Reader> Readers { get; } = new List<Reader>();
@@ -33,6 +24,16 @@ namespace Project_A
             }
             Librarians.Add(librarian);
             Console.WriteLine($"Бiблiотекар доданий: {librarian.Name}");
+        }
+
+        public void ChangeStatus(Book book, Status status)
+        {
+            if (!Books.Contains(book))
+            {
+                throw new InvalidOperationException();
+            }
+
+            book.Status = status;
         }
 
         public void AddReader(Reader reader)

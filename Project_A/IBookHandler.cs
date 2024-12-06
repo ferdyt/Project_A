@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Project_A
 {
-    public interface IEmployee
+    public interface IBookHandler
     {
-        void GetInfo();
+        void AddBook(Book book);
     }
 }

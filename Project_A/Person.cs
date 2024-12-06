@@ -11,5 +11,7 @@ namespace Project_A
         public string Name { get; set; }
         public Age Age { get; set; }
         public int PhoneNumber { get; set; }
+
+        public abstract void IntroduceYourself();
     }
 }

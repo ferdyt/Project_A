@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Project_A
 {
-    public class Librarian : Person, IEmployee
+    public class Librarian : Person
     {
         public string Name { get; set; }
         public Age Age { get; set; }
         public int PhoneNumber { get; set; }
         public Library Library { get; set; }
 
-        public void FindBook(string title)
+        public Book FindBook(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -29,18 +29,15 @@ namespace Project_A
             {
                 if (string.Equals(book.Title, title, StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine($"Книга {book.Title} знайдена");
-                    return;
+                    return book;
                 }
             }
-
-            Console.WriteLine($"Книга {title} не знайдена");
-            return;
+            return null;
         }
 
-        public void GetInfo()
+        public override void IntroduceYourself()
         {
-            Console.WriteLine($"Iм\'я: {Name}, вiк: {Age}, телефон: {PhoneNumber}");
+            Console.WriteLine($"Привiт, я бiблiотекар. Мене звати {Name}. Мiй номер телефону: {PhoneNumber}.");
         }
     }
 }

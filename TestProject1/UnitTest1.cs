@@ -1,4 +1,5 @@
 using Project_A;
+using System.Reflection.PortableExecutable;
 
 namespace TestProject1
 {
@@ -6,12 +7,23 @@ namespace TestProject1
     public class UnitTest1
     {
         [TestMethod]
+        public void CreateNewBook()
+        {
+            // Arrange
+            Library library = new Library();
+            Book book = new Book("Test", "Test", Rating.Good, library, 30);
+            // Act + Assert
+            Assert.IsNotNull(book);
+        }
+
+        [TestMethod]
         public void ReaderAddBook()
         {
             // Arrange
             Reader reader = new Reader();
             Library library = new Library();
-            Book book = new Book("Test", "Test", Rating.Good, library);
+            reader.Library = library;
+            Book book = new Book("Test", "Test", Rating.Good, library, 30);
 
             // Act
             reader.AddBook(book);
@@ -25,7 +37,7 @@ namespace TestProject1
         {
             // Arrange
             Library library = new Library();
-            Book book = new Book("Test", "Test", Rating.Good, library);
+            Book book = new Book("Test", "Test", Rating.Good, library, 30);
 
             // Act
             library.AddBook(book);
@@ -40,6 +52,7 @@ namespace TestProject1
             // Arrange
             Library library = new Library();
             Reader reader = new Reader();
+            reader.Library = library;
 
             // Act
             library.AddReader(reader);
@@ -60,6 +73,41 @@ namespace TestProject1
 
             // Assert
             Assert.IsNotNull(library.Librarians);
+        }
+
+        [TestMethod]
+        public void LibrarianFindBook()
+        {
+            // Arrange
+            Library library = new Library();
+            Librarian librarian = new Librarian();
+            Book book = new Book("Test", "Test", Rating.Good, library, 30);
+
+            // Act
+            library.AddLibrarian(librarian);
+            librarian.Library = library;
+            library.AddBook(book);
+            Book searchBook = librarian.FindBook("Test");
+
+            // Assert
+            Assert.IsNotNull(searchBook);
+        }
+
+        [TestMethod]
+        public void ReaderReturnBook()
+        {
+            // Arrange
+            Library library = new Library();
+            Reader reader = new Reader();
+            reader.Library = library;
+            Book book = new Book("Test", "Test", Rating.Good, library, 30);
+
+            // Act
+            reader.AddBook(book);
+            reader.ReturnBook(book);
+
+            // Assert
+            Assert.IsFalse(reader.Books.Contains(book));
         }
     }
 }
