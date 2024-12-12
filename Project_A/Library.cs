@@ -6,13 +6,13 @@
         public List<Reader> Readers { get; } = new List<Reader>();
         public List<Librarian> Librarians { get; } = new List<Librarian>();
 
-        public void AddBook(Book book)
+        public void AddBook(Book book, Library library)
         {
             if (book == null)
                 throw new ArgumentNullException(nameof(book));
-            if (!Books.Contains(book) && book.Library == this) 
+            if (!Books.Contains(book)) 
             {
-                Books.Add(book);
+                library.Books.Add(book);
             }
         }
 

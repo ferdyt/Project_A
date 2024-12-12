@@ -8,7 +8,7 @@
         public int PhoneNumber { get; set; }
         public Library Library { get; set; }
 
-        public void AddBook(Book book)
+        public void AddBook(Book book, Library library)
         {
             if (book == null)
             {
@@ -18,12 +18,12 @@
             {
                 throw new ArgumentNullException(nameof(book));
             }
-            Library.ChangeStatus(book, Status.Taken);
+            library.ChangeStatus(book, Status.Taken);
             Books.Add(book);
             Console.WriteLine($"Книжка додана: {book.Title}");
         }
 
-        public void ReturnBook(Book book)
+        public void ReturnBook(Book book, Library library)
         {
             if (!Books.Contains(book))
             {
@@ -31,7 +31,7 @@
             }
             Books.Remove(book);
 
-            Library.ChangeStatus(book, Status.NotTaken);
+            library.ChangeStatus(book, Status.NotTaken);
         }
 
         public override void IntroduceYourself()

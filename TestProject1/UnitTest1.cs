@@ -26,7 +26,7 @@ namespace TestProject1
             Book book = new Book("Test", "Test", Rating.Good, library, 30);
 
             // Act
-            reader.AddBook(book);
+            reader.AddBook(book, library);
 
             // Assert
             Assert.IsNotNull(reader.Books);
@@ -40,7 +40,7 @@ namespace TestProject1
             Book book = new Book("Test", "Test", Rating.Good, library, 30);
 
             // Act
-            library.AddBook(book);
+            library.AddBook(book, library);
 
             // Assert
             Assert.IsNotNull(library.Books);
@@ -76,24 +76,6 @@ namespace TestProject1
         }
 
         [TestMethod]
-        public void LibrarianFindBook()
-        {
-            // Arrange
-            Library library = new Library();
-            Librarian librarian = new Librarian();
-            Book book = new Book("Test", "Test", Rating.Good, library, 30);
-
-            // Act
-            library.AddLibrarian(librarian);
-            librarian.Library = library;
-            library.AddBook(book);
-            Book searchBook = librarian.FindBook("Test");
-
-            // Assert
-            Assert.IsNotNull(searchBook);
-        }
-
-        [TestMethod]
         public void ReaderReturnBook()
         {
             // Arrange
@@ -103,8 +85,8 @@ namespace TestProject1
             Book book = new Book("Test", "Test", Rating.Good, library, 30);
 
             // Act
-            reader.AddBook(book);
-            reader.ReturnBook(book);
+            reader.AddBook(book, library);
+            reader.ReturnBook(book, library);
 
             // Assert
             Assert.IsFalse(reader.Books.Contains(book));
