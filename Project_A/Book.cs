@@ -9,6 +9,8 @@
         public string Author { get;}
         public int TakenOnDays { get; set; }
 
+        public event EventHandler<BookEventArgs> BookAdded;
+
         public Book(string title, string author, Rating rating, Library library, int takenOnDays)
         {
             if (takenOnDays < 0)
@@ -23,7 +25,13 @@
 
             library.AddBook(this, library);
             Status = Status.NotTaken;
+
+            OnBookCreated(new BookEventArgs(this));
+        }
+        protected virtual void OnBookCreated(BookEventArgs e)
+        {
             Console.WriteLine($"Книгу {Title} створено");
+            BookAdded?.Invoke(this, e);
         }
     }
 }

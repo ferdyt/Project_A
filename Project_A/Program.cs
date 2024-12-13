@@ -13,13 +13,23 @@ public class Program
 
     static string CapitalizeFirstLetter(string input)
     {
+        if (string.IsNullOrEmpty(input)) return input;
         return char.ToUpper(input[0]) + input.Substring(1);
+    }
+    static string FormatPhoneNumber(string input)
+    {
+        if (input.Length != 9)
+            throw new ArgumentException("Номер телефону має бути 9 цифр.");
+
+        return input.Substring(0, 3) + "-" + input.Substring(3, 3) + "-" + input.Substring(6, 3);
     }
 
     static void Main(string[] args)
     {
         Library library = new Library();
         char[] specialCharacters = { ';', '.', '@', '#', '%', '$', '\'', '\"', '*', '!', '(', ')', '&'};
+        Func<string, string> capitalizeDelegate = CapitalizeFirstLetter;
+        Func<string, string> formatPhoneNumber = FormatPhoneNumber;
 
         while (true)
         {
@@ -91,7 +101,7 @@ public class Program
                             });
                             continue;
                         }
-                        reader.Name = CapitalizeFirstLetter(readerName);
+                        reader.Name = capitalizeDelegate(readerName);
                         break;
                     }
 
@@ -138,15 +148,8 @@ public class Program
                             });
                             continue;
                         }
-                        else if (readerStrPhoneNumber.Length != 9)
-                        {
-                            WithColor(ConsoleColor.Red, () =>
-                            {
-                                Console.WriteLine("Помилка: Номер телефону не мiстить 9 цифр");
-                            });
-                            continue;
-                        }
-                        reader.PhoneNumber = readerIntPhoneNumber;
+
+                        reader.PhoneNumber = formatPhoneNumber(readerStrPhoneNumber);
                         break;
                     }
 
@@ -214,7 +217,7 @@ public class Program
                             continue;
                         }
 
-                        bookTitle = CapitalizeFirstLetter(bookTitle);
+                        bookTitle = capitalizeDelegate(bookTitle);
                         break;
                     }
 
@@ -401,16 +404,8 @@ public class Program
                             });
                             continue;
                         }
-                        else if (!int.TryParse(librarianStrPhoneNumber, out librarianIntPhoneNumber))
-                        {
-                            WithColor(ConsoleColor.Red, () =>
-                            {
-                                Console.WriteLine("Помилка: Некоректний ввiд");
-                            });
-                            continue;
-                        }
 
-                        librarian.PhoneNumber = librarianIntPhoneNumber;
+                        librarian.PhoneNumber = formatPhoneNumber(librarianStrPhoneNumber);
                         library.AddLibrarian(librarian);
                         break;
                     }
@@ -449,7 +444,7 @@ public class Program
                     }
                     Console.WriteLine("Введiть iм'я читача:");
                     Console.Write(">>>");
-                    string nameToChoice = CapitalizeFirstLetter(Console.ReadLine());
+                    string nameToChoice = capitalizeDelegate(Console.ReadLine());
                     Reader readerToChoice = null;
 
                     foreach (var r in library.Readers)
@@ -470,7 +465,7 @@ public class Program
                         }
                         Console.WriteLine($"Оберiть книгу яку видати читачєві \'{readerToChoice.Name}\'");
                         Console.Write(">>>");
-                        string bookToChoice = Console.ReadLine();
+                        string bookToChoice = capitalizeDelegate(Console.ReadLine());
                         Book searchBook = null;
 
                         foreach (var b in library.Books)
@@ -492,6 +487,12 @@ public class Program
                             {
                                 Console.WriteLine($"Помилка: Некоректний ввод");
                             });
+                        }
+
+                        if(searchBook == null)
+                        {
+                            Console.WriteLine("Книгу не знайдено");
+                            break;
                         }
 
                         try
@@ -529,7 +530,7 @@ public class Program
                     }
                     Console.WriteLine("Введiть iм'я читача:");
                     Console.Write(">>>");
-                    string nameToChoice2 = CapitalizeFirstLetter(Console.ReadLine());
+                    string nameToChoice2 = capitalizeDelegate(Console.ReadLine());
                     Reader readerToChoice2 = null;
                     foreach (var r in library.Readers)
                     {
@@ -587,7 +588,7 @@ public class Program
                     }
                     Console.WriteLine("Введiть iм'я читача");
                     Console.Write(">>>");
-                    string nameToList = CapitalizeFirstLetter(Console.ReadLine());
+                    string nameToList = capitalizeDelegate(Console.ReadLine());
                     Reader reader1 = null;
 
                     foreach (var r in library.Readers)

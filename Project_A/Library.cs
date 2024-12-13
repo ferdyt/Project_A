@@ -1,10 +1,15 @@
-﻿namespace Project_A
+﻿using System.Reflection.PortableExecutable;
+
+namespace Project_A
 {
     public class Library : IBookHandler
     {
         public List<Book> Books { get; } = new List<Book>();
         public List<Reader> Readers { get; } = new List<Reader>();
         public List<Librarian> Librarians { get; } = new List<Librarian>();
+
+        public event EventHandler<ReaderEventArgs> ReaderAdd;
+        public event EventHandler<LibrarianEventArgs> LibrarianAdd;
 
         public void AddBook(Book book, Library library)
         {
@@ -23,7 +28,7 @@
                 throw new ArgumentNullException(nameof(librarian));
             }
             Librarians.Add(librarian);
-            Console.WriteLine($"Бiблiотекар доданий: {librarian.Name}");
+            OnLibrarianAdd(new LibrarianEventArgs(librarian));
         }
 
         public void ChangeStatus(Book book, Status status)
@@ -43,7 +48,17 @@
                 throw new ArgumentNullException(nameof(reader));
             }
             Readers.Add(reader);
-            Console.WriteLine($"Читач доданий: {reader.Name}");
+            OnReaderAdd(new ReaderEventArgs(reader));
+        }
+        protected virtual void OnReaderAdd(ReaderEventArgs e)
+        {
+            Console.WriteLine($"Читач доданий: {e.Reader.Name}");
+            ReaderAdd?.Invoke(this, e);
+        }
+        protected virtual void OnLibrarianAdd(LibrarianEventArgs e)
+        {
+            Console.WriteLine($"Бiблiотекар доданий: {e.Librarian.Name}");
+            LibrarianAdd?.Invoke(this, e);
         }
     }
 }

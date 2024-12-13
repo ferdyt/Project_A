@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
         public Age Age { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public Library Library { get; set; }
 
         public override void IntroduceYourself()
